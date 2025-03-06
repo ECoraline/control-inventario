@@ -6,12 +6,13 @@
     <title>Retiro de Productos</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="fondo">
+    <div class="contenido">
     <header>
         <h1>Retiro de Productos</h1>
     </header>
     <main>
-        <form action="retirar_productos.php" method="post">
+        <form class="formulario" action="retirar_productos.php" method="post">
             <label for="producto">Producto:</label>
             <select name="producto_id" id="producto_id">
                 <?php include 'obtener_productos.php'; ?>
@@ -20,8 +21,10 @@
             <label for="cantidad">Cantidad:</label>
             <input type="number" name="cantidad" id="cantidad" required>
             <br>
-            <button type="submit">Retirar</button>
+            <button class="boton" type="submit">Retirar</button>
         </form>
     </main>
+    </div>
+    
 </body>
 </html>
