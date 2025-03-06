@@ -16,9 +16,7 @@ if ($conn->connect_error) {
 $producto_id = $_POST['producto_id'];
 $cantidad_retirar = $_POST['cantidad'];
 
-// Imprimir el valor de $producto_id para depuración
-echo "ID del producto: " . $producto_id . "<br>";
-echo "Cantidad a retirar: " . $cantidad_retirar . "<br>";
+
 
 // Buscar la cantidad restante del producto usando una consulta preparada
 $stmt = $conn->prepare("SELECT cantidad FROM inventario WHERE id = ?");
@@ -43,7 +41,7 @@ if ($result->num_rows > 0) {
 
         // Verificar si la cantidad restante es menor o igual a 2
         if ($nueva_cantidad <= 2) {
-            echo "Aviso: La cantidad restante es menor o igual a 2. Se debe reponer el stock.<br>";
+            echo "<script>alert('¡Alerta! La cantidad restante es menor o igual a 2.');</script>";
         }
 
         $update_stmt->close();

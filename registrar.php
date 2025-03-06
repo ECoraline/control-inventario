@@ -19,13 +19,28 @@ $descripcion = $_POST['descripcion'];
 $cantidad = $_POST['cantidad'];
 $precio = $_POST['precio'];
 
-// Insertar datos en la base de datos
-$sql = "INSERT INTO inventario (nombre, descripcion, cantidad, precio) VALUES ('$nombre', '$descripcion', $cantidad, $precio)";
+// Comprobar si el nombre del producto ya existe en la base de datos
+$sql_check = "SELECT cantidad FROM inventario WHERE nombre = '$nombre'";
+$result = $conn->query($sql_check);
 
-if ($conn->query($sql) === TRUE) {
-    echo "Nuevo registro creado exitosamente";
+if ($result->num_rows > 0) {
+    // El producto ya existe, actualizar la cantidad
+    $row = $result->fetch_assoc();
+    $nueva_cantidad = $row['cantidad'] + $cantidad;
+    $sql_update = "UPDATE inventario SET cantidad = $nueva_cantidad WHERE nombre = '$nombre'";
+    if ($conn->query($sql_update) === TRUE) {
+        echo "Cantidad actualizada exitosamente";
+    } else {
+        echo "Error al actualizar la cantidad: " . $conn->error;
+    }
 } else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+    // El producto no existe, insertar nuevo registro
+    $sql_insert = "INSERT INTO inventario (nombre, descripcion, cantidad, precio) VALUES ('$nombre', '$descripcion', $cantidad, $precio)";
+    if ($conn->query($sql_insert) === TRUE) {
+        echo "Nuevo registro creado exitosamente";
+    } else {
+        echo "Error: " . $sql_insert . "<br>" . $conn->error;
+    }
 }
 
 // Cerrar conexión
